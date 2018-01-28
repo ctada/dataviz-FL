@@ -6,9 +6,11 @@ from bokeh.resources import CDN
 from bokeh.embed import file_html, components
 from bokeh.layouts import row, widgetbox
 from bokeh.plotting import curdoc, figure
+from bokeh.resources import INLINE
 
+from jinja2 import Template
 
-output_file("filtered_viz.html")
+# output_file("filtered_viz.html")
 
 df = pd.read_csv("raw_state_automation_data.csv", sep = ",")
     #names = ["SOC","Occupation","Probability","Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","District of Columbia","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Carolina","North Dakota","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming"]) 
@@ -51,6 +53,42 @@ y.on_change("value", update)
 controls = widgetbox([y], width=200)
 layout = row(controls, create_figure())
 
-curdoc().add_root(layout)
-curdoc().title = "Automation Risk"
+# For Bokeh app
+# curdoc().add_root(layout)
+# curdoc().title = "Automation Risk"
 
+#For Static ouput
+script, div = components(layout)
+
+print(script)
+print(div)
+# Get JavaScript/HTML resources
+# js_resources = INLINE.render_js()
+# css_resources = INLINE.render_css()
+
+# template = Template('''<!DOCTYPE html>
+# <html lang="en">
+#     <head>
+#         <meta charset="utf-8">
+#         <title>Widget</title>
+#         {{ js_resources }}
+#         {{ css_resources }}
+#     </head>
+#     <body>
+#         {{ div1 }}
+#         {{ div2 }}
+#         {{ div3 }}
+#         {{ script }}
+#     </body>
+# </html>
+# ''')
+
+# filename = 'filtered_viz.html'
+
+# html = template.render(js_resources=js_resources,
+#         css_resources=css_resources,
+#         script=script,
+#         div=div)
+
+# with open(filename, 'w') as f:
+#     f.write(html)
